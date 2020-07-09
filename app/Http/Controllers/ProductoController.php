@@ -35,11 +35,6 @@ class ProductoController extends Controller
             'id_categoria'     => 'required|numeric',
             'nombre'     => 'required|string',
             'descripcion'     => 'nullable|string',
-<<<<<<< HEAD
-            'url_imagen'     => 'nullable|string',
-           //Los demas son opcionales
-        ]);
-=======
             'url_imagen'     => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
             
            //Los demas son opcionales
@@ -49,18 +44,13 @@ class ProductoController extends Controller
         $imageName = $t.'_'.$nombre.'.'.$request->url_imagen->extension();
 
         $request->url_imagen->move(public_path('images/'), $imageName);
->>>>>>> aede34b... 'V5'
 
         $producto = new Producto([
             
             'id_categoria'    => $request->id_categoria,
             'nombre'    => $request->nombre,
             'descripcion'    => $request->descripcion,
-<<<<<<< HEAD
-            'url_imagen'    => $request->url_imagen
-=======
             'url_imagen'    => $imageName
->>>>>>> aede34b... 'V5'
             
         ]);
 

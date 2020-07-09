@@ -34,11 +34,7 @@ class TamanoProductoController extends Controller
             'id_tamano'     => 'required|numeric',
             'id_producto'     => 'required|numeric',
             'precio'     => 'required|numeric',
-<<<<<<< HEAD
-            'stock'=> 'numeric'
-=======
             'stock'=> 'nullable|numeric'
->>>>>>> aede34b... 'V5'
            //Los demas son opcionales
         ]);
         
@@ -198,11 +194,7 @@ class TamanoProductoController extends Controller
 
         $tamano_producto = DB::table('tamano_productos')
         ->where('id_tamano', $id)
-<<<<<<< HEAD
-        ->where('id_producto', $id_producto)
-=======
         ->where('id_producto', $id2)
->>>>>>> aede34b... 'V5'
         ->update(['estado' => 0]);
      
       

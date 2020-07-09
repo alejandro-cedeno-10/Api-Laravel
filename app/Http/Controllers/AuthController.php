@@ -16,21 +16,12 @@ class AuthController extends Controller
         $request->validate([
             'nombre'     => 'required|string',
             'apellido'     => 'required|string',
-<<<<<<< HEAD
-            'direccion'=> 'string',
-            'fecha_nacimiento'=> 'date',
-            'telefono'=> 'numeric',
-            'admin'=> 'numeric',
-            'latitud'=> 'numeric',
-            'longitud'=> 'numeric',
-=======
             'direccion'=> 'nullable|string',
             'fecha_nacimiento'=> 'nullable|date',
             'telefono'=> 'nullable|numeric',
             'admin'=> 'numeric',
             'latitud'=> 'nullable|numeric',
             'longitud'=> 'nullable|numeric',
->>>>>>> aede34b... 'V5'
             'email'    => 'required|string|email|unique:users',
             'password' => 'required|string',
             'c_password' => 'required|string|same:password'      
@@ -85,11 +76,8 @@ class AuthController extends Controller
         ]);
     }
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> aede34b... 'V5'
     public function logout(Request $request)
     {
         $request->user()->token()->revoke();

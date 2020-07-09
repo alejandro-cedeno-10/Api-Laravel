@@ -34,11 +34,7 @@ class CategoriaController extends Controller
         //
       $request->validate([
             'nombre'  => 'required|string',
-<<<<<<< HEAD
-            'descripcion'  => 'string'
-=======
             'descripcion'  => 'nullable|string'
->>>>>>> aede34b... 'V5'
             
           ]);
 

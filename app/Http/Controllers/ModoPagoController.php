@@ -31,13 +31,8 @@ class ModoPagoController extends Controller
         //
         $request->validate([
             'id_tipo'     => 'required|numeric',
-<<<<<<< HEAD
-            'pago'     => 'required|numeric',
-            'detalles'     => 'string'
-=======
             'pago'     => 'nullable|numeric',
             'detalles'     => 'nullable|string'
->>>>>>> aede34b... 'V5'
                   
         ]);
         $modo_pagos = new Modo_pago([
