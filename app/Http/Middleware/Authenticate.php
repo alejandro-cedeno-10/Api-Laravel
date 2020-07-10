@@ -15,12 +15,8 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-<<<<<<< HEAD
-            return route('login');
-=======
             return response()->json(['message' => 
             'Inicie sesion y envie su Token']);
->>>>>>> aede34b... 'V5'
         }
     }
 }

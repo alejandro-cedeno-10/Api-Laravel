@@ -101,7 +101,7 @@ Route::group(['prefix' => 'session'], function () {
  
        Route::group(['prefix' => 'producto'], function () {
          Route::post('/filter', 'ProductoController@filter_productos');
-         Route::get('/', 'ProductoController@index');
+        /*  Route::get('/', 'ProductoController@index') */;
          Route::get('/buscar/{id}', 'ProductoController@show');
          Route::get('/productos_categoria/{id}', 'ProductoController@show_Productos');  
        });
@@ -184,7 +184,7 @@ Route::group(['prefix' => 'session'], function () {
          Route::group(['prefix' => 'producto'], function () {
            Route::post('/create', 'ProductoController@create');
            Route::post('/filter', 'ProductoController@filter_productos');
-           Route::get('/', 'ProductoController@index');
+        /*    Route::get('/', 'ProductoController@index'); */
            Route::get('/buscar/{id}', 'ProductoController@show');
            Route::get('/productos_categoria/{id}', 'ProductoController@show_Productos'); 
            Route::put('/actualizar', 'ProductoController@update'); 
