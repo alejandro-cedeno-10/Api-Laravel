@@ -232,6 +232,9 @@ class ProductoController extends Controller
     public function update(Request $request)
     {
         //
+
+       
+
         $producto = Producto::findOrFail($request->id);
 
         $producto->nombre = $request->nombre;
