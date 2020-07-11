@@ -34,16 +34,24 @@ class CategoriaController extends Controller
         //
       $request->validate([
             'nombre'  => 'required|string',
-            'descripcion'  => 'nullable|string'
-            
+            'descripcion'  => 'nullable|string',
+            'url_imagen'     => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
           ]);
 
+          if(($request->url_imagen)!=null){
+            $t=time();
+            $nombre=$request->nombre;
+            $imageName = $t.'_'.$nombre.'.'.$request->url_imagen->extension();
+            $request->url_imagen->move(public_path('images/categorias'), $imageName);
+           }else{
+            $imageName=null;
+           }
 
         $categoria = new Categoria([
             
             'nombre'    => $request->nombre,
-            'descripcion'    => $request->descripcion
-            
+            'descripcion'    => $request->descripcion,
+            'url_imagen'  => $imageName
         ]);
 
         $categoria->save();

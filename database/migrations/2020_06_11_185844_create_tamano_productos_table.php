@@ -24,6 +24,7 @@ class CreateTamanoProductosTable extends Migration
           
             $table->float('precio',4, 2);
             $table->integer('stock')->nullable();
+            $table->string('url_imagen')->nullable();
             $table->timestamps();
 
             $table->primary(['id_tamano','id_producto']);

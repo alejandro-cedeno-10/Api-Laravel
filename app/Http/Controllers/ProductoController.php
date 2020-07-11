@@ -28,9 +28,12 @@ class ProductoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create(Request $request)
     {
         //
+
+
         $request->validate([
             'id_categoria'     => 'required|numeric',
             'nombre'     => 'required|string',
@@ -39,11 +42,16 @@ class ProductoController extends Controller
             
            //Los demas son opcionales
         ]);
+
+        if(($request->url_imagen)!=null){
         $t=time();
         $nombre=$request->nombre;
         $imageName = $t.'_'.$nombre.'.'.$request->url_imagen->extension();
+        $request->url_imagen->move(public_path('images/productos'), $imageName);
+       }else{
+        $imageName=null;
+       }
 
-        $request->url_imagen->move(public_path('images/'), $imageName);
 
         $producto = new Producto([
             
@@ -233,7 +241,7 @@ class ProductoController extends Controller
     {
         //
 
-       
+        
 
         $producto = Producto::findOrFail($request->id);
 

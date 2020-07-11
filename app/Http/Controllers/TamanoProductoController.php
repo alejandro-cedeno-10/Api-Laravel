@@ -34,16 +34,29 @@ class TamanoProductoController extends Controller
             'id_tamano'     => 'required|numeric',
             'id_producto'     => 'required|numeric',
             'precio'     => 'required|numeric',
-            'stock'=> 'nullable|numeric'
+            'stock'=> 'nullable|numeric',
+            'url_imagen'     => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+            
            //Los demas son opcionales
         ]);
+
+        
+        if(($request->url_imagen)!=null){
+            $t=time();
+            $nombre=$request->nombre;
+            $imageName = $t.'_'.$nombre.'.'.$request->url_imagen->extension();
+            $request->url_imagen->move(public_path('images/tamano_productos'), $imageName);
+           }else{
+            $imageName=null;
+           }
         
         $tamano_producto = new Tamano_producto([
             
             'id_tamano'    => $request->id_tamano,
             'id_producto'    => $request->id_producto,
             'precio'    => $request->precio,
-            'stock'    => $request->stock
+            'stock'    => $request->stock,
+            'url_imagen'    => $imageName
             
         ]);
 
@@ -58,7 +71,7 @@ class TamanoProductoController extends Controller
             'id_producto'=>$request->id_producto,
             'precio'=>$request->precio,
             'stock'=>$request->stock,
-            
+            'url_imagen'    => $imageName
             ],
             'message' => 'Detalle creado!'
         ];

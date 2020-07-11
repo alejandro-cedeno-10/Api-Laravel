@@ -9,7 +9,7 @@ class categoria extends Model
     //
     
     protected $fillable = [  
-        'id', 'nombre','descripcion'
+        'id', 'nombre','descripcion', 'url_imagen'
     ];
 
     protected $hidden = [

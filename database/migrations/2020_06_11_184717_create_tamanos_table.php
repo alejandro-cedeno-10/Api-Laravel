@@ -18,6 +18,8 @@ class CreateTamanosTable extends Migration
             $table->id();
            
             $table->string('nombre',25);
+        
+            
             $table->timestamps();
 
             

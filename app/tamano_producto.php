@@ -8,7 +8,7 @@ class tamano_producto extends Model
 {
     protected $fillable = [
         
-        'id_tamano','id_producto','precio','stock'
+        'id_tamano','id_producto','precio','stock','url_imagen'
     ];
 
     /**
