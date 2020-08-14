@@ -43,8 +43,8 @@ class TamanoProductoController extends Controller
         
         if(($request->url_imagen)!=null){
             $t=time();
-            $nombre=$request->nombre;
-            $imageName = $t.'_'.$nombre.'.'.$request->url_imagen->extension();
+           
+            $imageName = $t.'_'.'.'.$request->url_imagen->extension();
             $request->url_imagen->move(public_path('images/tamano_productos'), $imageName);
            }else{
             $imageName=null;
@@ -182,13 +182,63 @@ class TamanoProductoController extends Controller
     public function update(Request $request)
     {
         //
+
+        $request->validate([
+            'id_tamano'     => 'required|numeric',
+            'id_producto'     => 'required|numeric',
+   
+        ]);
+
         $tamano_producto = DB::table('tamano_productos')
+        ->select('url_imagen')
         ->where('id_tamano', $request->id_tamano)
         ->where('id_producto', $request->id_producto)
-        ->update(['precio' => $request->precio,'stock' => $request->stock]);
+        ->get();
+      
      
 
+       
+       
+        if(($request->url_imagen)!=null){
+            $url_imagen=null;
+            $request->validate([
+                'url_imagen'     => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+            ]);
+    
+            if(json_decode($tamano_producto, true) ){
+                foreach($tamano_producto as $clave =>$valor){
+                $url_imagen=$valor->url_imagen;
+                }
+        }
+        
+            if(($url_imagen)!=null){
+            $dirimgs = public_path().'/images/tamano_productos/'. $url_imagen;
+            @unlink($dirimgs);
+            } 
 
+            $t=time();
+            $imageName = $t.'_'.'.'.$request->url_imagen->extension();
+            $request->url_imagen->move(public_path('images/tamano_productos'), $imageName);
+            $tamano_producto = DB::table('tamano_productos')
+            ->where('id_tamano', $request->id_tamano)
+            ->where('id_producto', $request->id_producto)
+            ->update(['url_imagen' => $imageName]); 
+        }else{
+
+            $request->validate([
+                'precio'     => 'required|numeric',
+                'stock'=> 'nullable|numeric',
+            ]);
+    
+            $tamano_producto = DB::table('tamano_productos')
+            ->where('id_tamano', $request->id_tamano)
+            ->where('id_producto', $request->id_producto)
+            ->update(['precio' => $request->precio,'stock' => $request->stock]); 
+          
+           }
+
+          
+           
         /* return $users; */
         return response()->json([
             'message' => 'Tamano producto actualizado!'], 200);

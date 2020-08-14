@@ -17,12 +17,27 @@ class CategoriaController extends Controller
     public function index(Request $request)
     {
       
+        
         $categoria = DB::table('categorias')
-        ->where('estado', 1)
+        ->select('categorias.*',DB::raw('COUNT(productos.estado) as numero_Productos'))     
+        ->join('productos', 'productos.id_categoria', '=', 'categorias.id')
+        ->groupBy('categorias.id','categorias.nombre','categorias.descripcion','categorias.url_imagen','categorias.created_at','api.categorias.updated_at','api.categorias.estado')
+        ->where('productos.estado', 1)
+        ->where('categorias.estado', 1)
         ->get();
-        return $categoria;
+        
+        return $categoria;   
     }
 
+    
+    public function index_Admin(Request $request)
+    {
+    
+        $categorias = DB::table('categorias')
+        ->where('estado', 1)
+        ->get();
+        return $categorias;
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -116,11 +131,40 @@ class CategoriaController extends Controller
     public function update(Request $request)
     {
         //
+        $request->validate([
+            'id'  => 'required|numeric',
+       ]);
+
         $categoria = Categoria::findOrFail($request->id);
 
-        $categoria->nombre = $request->nombre;
-        $categoria->descripcion = $request->descripcion;
+        
       
+        if(($request->url_imagen)!=null){
+   //
+        $request->validate([
+            'url_imagen'     => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+        ]);
+            if(($categoria->url_imagen)!=null){
+            $dirimgs = public_path().'/images/categorias/'.$categoria->url_imagen;
+            @unlink($dirimgs);
+            } 
+
+            $t=time();
+            $nombre=$categoria->nombre;
+            $imageName = $t.'_'.$nombre.'.'.$request->url_imagen->extension();
+            $request->url_imagen->move(public_path('images/categorias'), $imageName);
+            $categoria->url_imagen = $imageName;
+        }else{
+
+            $request->validate([
+                'nombre'  => 'required|string',
+                'descripcion'  => 'nullable|string',
+              ]);
+                  
+            $categoria->nombre = $request->nombre;
+            $categoria->descripcion = $request->descripcion;
+           }
+        
         $categoria->save();
 
         /* return $users; */

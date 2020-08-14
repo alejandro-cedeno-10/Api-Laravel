@@ -118,6 +118,14 @@ class DetalleController extends Controller
     public function update(Request $request)
     {
         //
+        $request->validate([
+            'id_factura'     => 'required|numeric',
+            'id_producto'     => 'required|numeric',
+            'cantidad'    => 'required|numeric',
+            'precio' => 'required|numeric',
+                  
+        ]);
+        
         $detalle = DB::table('detalles')
         ->where('id_factura', $request->id_factura)
         ->where('id_producto', $request->id_producto)

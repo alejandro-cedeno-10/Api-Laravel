@@ -14,6 +14,8 @@ class ProductoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
+
     public function index(Request $request)
     {
         $producto = DB::table('productos')
@@ -102,12 +104,61 @@ class ProductoController extends Controller
         
     }
 
-    public function show_Productos($id)
+    public function show_Productos_Admin($id)
     {
         //
         $producto = DB::table('productos')->select('id', 'id_categoria','nombre','descripcion','url_imagen')->where('id_categoria', $id)
         ->where('estado', 1)
         ->get();
+
+           
+     
+
+        $categoria = DB::table('categorias')->select('id', 'nombre','descripcion')
+        ->where('estado', 1)
+        ->where('id', $id)->get();
+       
+
+        if(json_decode($producto, true) ){
+         
+            foreach($categoria as $clave =>$valor){
+            $data=[
+                'Categoria'=>[
+                'Nombre_categoria'=>$valor->nombre,
+                'id'=>$valor->id,
+                'Descripcion'=>$valor->descripcion,
+                ],
+                'Productos'=>$producto,
+            ];
+        }
+
+            return $data;
+
+        }else{
+            return response()->json([
+                'message' => 'Esa caterogia no existe!'], 200);
+        }   
+        
+    }
+
+    public function show_Productos($id)
+    {
+        //
+        /* $producto = DB::table('productos')->select('id', 'id_categoria','nombre','descripcion','url_imagen')->where('id_categoria', $id)
+        ->where('estado', 1)
+        ->get();
+ */
+
+        $producto = DB::table('productos')
+        ->select('productos.*',DB::raw('COUNT(tamano_productos.estado) as numero_Presentaciones'))     
+        ->join('tamano_productos', 'tamano_productos.id_producto', '=', 'productos.id')
+        ->groupBy('productos.id','productos.id_categoria','productos.nombre','productos.descripcion','productos.url_imagen','productos.created_at','productos.updated_at','productos.estado')
+        ->where('productos.id_categoria', $id)
+        ->where('productos.estado', 1)
+        ->where('tamano_productos.estado', 1)
+        
+        ->get();
+
         $categoria = DB::table('categorias')->select('id', 'nombre','descripcion')
         ->where('estado', 1)
         ->where('id', $id)->get();
@@ -240,14 +291,41 @@ class ProductoController extends Controller
     public function update(Request $request)
     {
         //
-
+        $request->validate([
+            'id'     => 'required|numeric',
+            
+        ]);
         
 
         $producto = Producto::findOrFail($request->id);
+ 
+        if(($request->url_imagen)!=null){
+            $request->validate([
+                'url_imagen'     => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048', 
+            ]);
+            
+            if(($producto->url_imagen)!=null){
+            $dirimgs = public_path().'/images/productos/'.$producto->url_imagen;
+            @unlink($dirimgs);
+            } 
 
-        $producto->nombre = $request->nombre;
-        $producto->descripcion = $request->descripcion;
-        $producto->url_imagen = $request->url_imagen;
+            $t=time();
+            $nombre=$producto->nombre;
+            $imageName = $t.'_'.$nombre.'.'.$request->url_imagen->extension();
+            $request->url_imagen->move(public_path('images/productos'), $imageName);
+            $producto->url_imagen = $imageName;
+        }else{
+
+            $request->validate([
+                'nombre'     => 'required|string',
+                'descripcion'     => 'nullable|string', 
+            ]);
+            
+            $producto->nombre = $request->nombre;
+            $producto->descripcion = $request->descripcion;
+           }
+
+      
       
         $producto->save();
 

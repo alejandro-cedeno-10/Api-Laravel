@@ -229,6 +229,13 @@ class FacturaController extends Controller
     public function update(Request $request)
     {
         //
+
+        $request->validate([
+            'id'     => 'required|numeric',
+            'fecha'    => 'required|date'
+                  
+        ]);
+
         $factura = Factura::findOrFail($request->id);
 
         $factura->fecha = $request->fecha;

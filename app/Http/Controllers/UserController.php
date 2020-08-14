@@ -44,7 +44,18 @@ class UserController extends Controller
     {
        /*  $users = DB::table('users')->where('email', $request->$email)->get();
  */
-
+$request->validate([
+    'nombre'     => 'required|string',
+    'apellido'     => 'required|string',
+    'direccion'=> 'nullable|string',
+    'fecha_nacimiento'=> 'nullable|date',
+    'telefono'=> 'nullable|numeric',
+    'admin'=> 'numeric',
+    'latitud'=> 'nullable|numeric',
+    'longitud'=> 'nullable|numeric',
+    'email'    => 'required|string|email|unique:users',
+    'password' => 'required|string'
+]);
     $users = User::findOrFail($request->id);
 
         $users->nombre = $request->nombre;

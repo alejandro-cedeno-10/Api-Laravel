@@ -102,6 +102,14 @@ class ModoPagoController extends Controller
     public function update(Request $request)
     {
         //
+
+        $request->validate([
+            'id'     => 'required|numeric',
+            'pago'     => 'nullable|numeric',
+            'detalles'     => 'nullable|string'
+                  
+        ]);
+        
         $modo_pagos = Modo_pago::findOrFail($request->id);
 
       
