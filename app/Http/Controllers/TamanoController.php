@@ -100,6 +100,12 @@ class TamanoController extends Controller
     public function update(Request $request)
     {
         //
+        $request->validate([
+            'id'     => 'required|numeric',
+            'nombre'     => 'required|string',
+    
+        ]);
+
         $tamano = Tamano::findOrFail($request->id);
 
         $tamano->nombre = $request->nombre;

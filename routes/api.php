@@ -128,7 +128,9 @@ Route::group(['prefix' => 'oauth/token'], function () {
          });
    
          Route::group(['prefix' => 'categoria'], function () {
+          Route::get('/adminCategoria', 'CategoriaController@index_Admin');
            Route::post('/create', 'CategoriaController@create');
+           Route::post('/actualizar', 'CategoriaController@update'); 
            Route::put('/actualizar', 'CategoriaController@update'); 
            Route::delete('/eliminar/{id}', 'CategoriaController@destroy'); 
          });
@@ -136,15 +138,17 @@ Route::group(['prefix' => 'oauth/token'], function () {
    
          Route::group(['prefix' => 'producto'], function () {
            Route::post('/create', 'ProductoController@create');
+           Route::post('/actualizar', 'ProductoController@update'); 
            Route::put('/actualizar', 'ProductoController@update'); 
            Route::delete('/eliminar/{id}', 'ProductoController@destroy'); 
-           
+           Route::get('/adminProductos_categoria/{id}', 'ProductoController@show_Productos_Admin');  
+
          });
    
    
          Route::group(['prefix' => 'tamano_producto'], function () {
            Route::post('/create', 'TamanoProductoController@create');
-        
+           Route::post('/actualizar', 'TamanoProductoController@update'); 
            Route::put('/actualizar', 'TamanoProductoController@update'); 
            Route::delete('/eliminar/{id}/{id2}', 'TamanoProductoController@destroy'); 
          });

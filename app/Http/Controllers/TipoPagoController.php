@@ -100,6 +100,13 @@ class TipoPagoController extends Controller
     public function update(Request $request)
     {
         //
+
+        $request->validate([
+            'id'  => 'required|numeric',
+            'tipo_pago'     => 'required|string',
+          
+        ]);
+
         $tipo_pagos = Tipo_pago::findOrFail($request->id);
 
         $tipo_pagos->tipo_pago = $request->tipo_pago;
