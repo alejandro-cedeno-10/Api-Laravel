@@ -125,7 +125,7 @@ class CategoriaController extends Controller
 
         /* return $users; */
         return response()->json([
-            'message' => 'Categoria actualizado!'], 200);
+            'message' => 'Categoria actualizado!'.$request->id], 200);
       
     }
 
