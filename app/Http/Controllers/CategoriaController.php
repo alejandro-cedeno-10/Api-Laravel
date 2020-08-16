@@ -15,13 +15,12 @@ class CategoriaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
-      
+    {      
         
         $categoria = DB::table('categorias')
-        ->select('categorias.*',DB::raw('COUNT(productos.estado) as numero_Productos'))     
+        ->select('categorias.*',DB::raw('COUNT(productos.estado) as numero_Productos'))  
         ->join('productos', 'productos.id_categoria', '=', 'categorias.id')
-        ->groupBy('categorias.id','categorias.nombre','categorias.descripcion','categorias.url_imagen','categorias.created_at','api.categorias.updated_at','api.categorias.estado')
+        ->groupBy('categorias.id','categorias.nombre','categorias.descripcion','categorias.url_imagen','categorias.created_at','categorias.updated_at','categorias.estado')
         ->where('productos.estado', 1)
         ->where('categorias.estado', 1)
         ->get();
@@ -154,23 +153,21 @@ class CategoriaController extends Controller
             $imageName = $t.'_'.$nombre.'.'.$request->url_imagen->extension();
             $request->url_imagen->move(public_path('images/categorias'), $imageName);
             $categoria->url_imagen = $imageName;
-        }else{
+        }
 
-            $request->validate([
-                'nombre'  => 'required|string',
-                'descripcion'  => 'nullable|string',
-              ]);
-                  
+        if( $request->nombre != null) {
             $categoria->nombre = $request->nombre;
+        }
+
+        if( $request->descripcion != null) {
             $categoria->descripcion = $request->descripcion;
-           }
+        }
         
         $categoria->save();
 
         /* return $users; */
         return response()->json([
             'message' => 'Categoria actualizado!'.$request->id], 200);
-      
     }
 
 
