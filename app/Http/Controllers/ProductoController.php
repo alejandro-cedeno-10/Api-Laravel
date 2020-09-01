@@ -314,14 +314,15 @@ class ProductoController extends Controller
             $imageName = $t.'_'.$nombre.'.'.$request->url_imagen->extension();
             $request->url_imagen->move(public_path('images/productos'), $imageName);
             $producto->url_imagen = $imageName;
-        }else{
+        }
 
-            $request->validate([
-                'nombre'     => 'required|string',
-                'descripcion'     => 'nullable|string', 
-            ]);
-            
-            $producto->nombre = $request->nombre;
+       
+          
+            if( $request->nombre != null) {
+                $producto->nombre = $request->nombre;
+            }
+         
+            if( $request->descripcion != null) {
             $producto->descripcion = $request->descripcion;
            }
 

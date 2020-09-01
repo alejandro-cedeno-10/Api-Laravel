@@ -211,8 +211,11 @@ class TamanoProductoController extends Controller
                 }
         }
         
+
             if(($url_imagen)!=null){
+            // Obtengo la direccion donde se guarda la imagen y el nombre de la misma.
             $dirimgs = public_path().'/images/tamano_productos/'. $url_imagen;
+            // Elimino la imagen de la carpeta
             @unlink($dirimgs);
             } 
 
@@ -223,21 +226,24 @@ class TamanoProductoController extends Controller
             ->where('id_tamano', $request->id_tamano)
             ->where('id_producto', $request->id_producto)
             ->update(['url_imagen' => $imageName]); 
-        }else{
-
-            $request->validate([
-                'precio'     => 'required|numeric',
-                'stock'=> 'nullable|numeric',
-            ]);
-    
+        }
+        if( $request->precio != null) {
             $tamano_producto = DB::table('tamano_productos')
             ->where('id_tamano', $request->id_tamano)
             ->where('id_producto', $request->id_producto)
-            ->update(['precio' => $request->precio,'stock' => $request->stock]); 
+            ->update(['precio' => $request->precio]); 
           
-           }
+            }
 
-          
+            if( $request->stock != null) {
+                $tamano_producto = DB::table('tamano_productos')
+                ->where('id_tamano', $request->id_tamano)
+                ->where('id_producto', $request->id_producto)
+                ->update(['stock' => $request->stock]); 
+
+                }
+
+ 
            
         /* return $users; */
         return response()->json([
@@ -254,13 +260,24 @@ class TamanoProductoController extends Controller
     public function destroy($id,$id2)
     {
         //
-
+        $verificarEstado = DB::table('tamano_productos')
+        ->where('id_tamano', $id)
+        ->where('id_producto', $id2)
+        ->where('estado', 0)->delete();
+        
         $tamano_producto = DB::table('tamano_productos')
         ->where('id_tamano', $id)
         ->where('id_producto', $id2)
         ->update(['estado' => 0]);
+
+        
      
-      
+        if(json_decode($verificarEstado, true) ){
+            return response()->json([
+                'message' => 'Tamano_producto eliminado permanentemente!'], 200);
+
+        }
+
         if(json_decode($tamano_producto, true) ){
             return response()->json([
                 'message' => 'Tamano_producto eliminado!'], 200);

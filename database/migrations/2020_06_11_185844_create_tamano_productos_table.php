@@ -15,7 +15,7 @@ class CreateTamanoProductosTable extends Migration
     {
         Schema::create('tamano_productos', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-
+            $table->id();
             $table->foreignId('id_tamano');
             $table->foreign('id_tamano')->references('id')->on('tamanos')->onDelete('cascade')->onUpdate('cascade');
           
@@ -27,7 +27,7 @@ class CreateTamanoProductosTable extends Migration
             $table->string('url_imagen')->nullable();
             $table->timestamps();
 
-            $table->primary(['id_tamano','id_producto']);
+            /* $table->primary(['id_tamano','id_producto']); */
       
         });
     }
