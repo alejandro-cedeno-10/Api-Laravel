@@ -148,6 +148,7 @@ class TamanoProductoController extends Controller
                     'Tamano'=>$valor->nombre,
                     'Precio'=>$valor->precio,
                     'Stock'=>$valor->stock,
+                    'Url_imagen'=>$valor->url_imagen
             ];
             }
 
