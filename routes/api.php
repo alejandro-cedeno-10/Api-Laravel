@@ -96,16 +96,19 @@ Route::group(['prefix' => 'oauth/token'], function () {
     
 
 
-
+      
 
 
 
       Route::group(['middleware' => 'admin'], function() {
-   
-         Route::group(['prefix' => 'users'], function () {
-           Route::get('/', 'UserController@index');
-           Route::get('/buscar/{id}', 'UserController@show');
-         });
+        
+        Route::group(['prefix' => 'users'], function () {
+          Route::get('/', 'UserController@index');
+          Route::get('/buscar/{id}', 'UserController@show');
+          Route::get('/admin', 'UserController@indexAdmin');
+          Route::get('/not_admin', 'UserController@indexUsers');
+        });
+        
    
    
          Route::group(['prefix' => 'tipo_pago'], function () {
