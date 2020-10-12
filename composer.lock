@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "content-hash": "17638903afa03c32d5c93ba9fe8b5b16",
-=======
     "content-hash": "96d88c61a44a435da8621b27ba75fbda",
->>>>>>> aede34b... 'V5'
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1165,39 +1161,22 @@
         },
         {
             "name": "laravel/passport",
-<<<<<<< HEAD
-            "version": "v9.2.1",
+            "version": "v9.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "0931d75235283d651b767d291a79cafba5d6ce68"
+                "reference": "38d9ee08974fed5d41376a52a994eaca615138a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/0931d75235283d651b767d291a79cafba5d6ce68",
-                "reference": "0931d75235283d651b767d291a79cafba5d6ce68",
-=======
-            "version": "v9.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/passport.git",
-                "reference": "724acaea99204728a1baf7b9b730bf97debbf94c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/724acaea99204728a1baf7b9b730bf97debbf94c",
-                "reference": "724acaea99204728a1baf7b9b730bf97debbf94c",
->>>>>>> aede34b... 'V5'
+                "url": "https://api.github.com/repos/laravel/passport/zipball/38d9ee08974fed5d41376a52a994eaca615138a4",
+                "reference": "38d9ee08974fed5d41376a52a994eaca615138a4",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "firebase/php-jwt": "^5.0",
-<<<<<<< HEAD
-                "guzzlehttp/guzzle": "^6.0",
-=======
                 "guzzlehttp/guzzle": "^6.0|^7.0",
->>>>>>> aede34b... 'V5'
                 "illuminate/auth": "^6.0|^7.0",
                 "illuminate/console": "^6.0|^7.0",
                 "illuminate/container": "^6.0|^7.0",
@@ -1251,11 +1230,7 @@
                 "oauth",
                 "passport"
             ],
-<<<<<<< HEAD
-            "time": "2020-05-14T08:24:43+00:00"
-=======
-            "time": "2020-06-30T20:21:17+00:00"
->>>>>>> aede34b... 'V5'
+            "time": "2020-07-21T15:16:20+00:00"
         },
         {
             "name": "laravel/tinker",
