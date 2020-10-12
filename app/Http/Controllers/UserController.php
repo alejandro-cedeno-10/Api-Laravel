@@ -10,6 +10,8 @@ use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
+    
+
 
     public function index(Request $request)
     {
@@ -17,6 +19,17 @@ class UserController extends Controller
         return $users;
     }
 
+    public function indexAdmin(Request $request)
+    {
+        $users = DB::table('users')->where('admin', 1)->get();
+        return $users;
+    }
+
+    public function indexUsers(Request $request)
+    {
+        $users = DB::table('users')->where('admin', 0)->get();
+        return $users;
+    }
     
     public function show($id)
     {
@@ -42,38 +55,108 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-       /*  $users = DB::table('users')->where('email', $request->$email)->get();
- */
-$request->validate([
-    'nombre'     => 'required|string',
-    'apellido'     => 'required|string',
-    'direccion'=> 'nullable|string',
-    'fecha_nacimiento'=> 'nullable|date',
-    'telefono'=> 'nullable|numeric',
-    'admin'=> 'numeric',
-    'latitud'=> 'nullable|numeric',
-    'longitud'=> 'nullable|numeric',
-    'email'    => 'required|string|email|unique:users',
-    'password' => 'required|string'
-]);
-    $users = User::findOrFail($request->id);
+    
+    $user = User::findOrFail($request->id);
 
-        $users->nombre = $request->nombre;
-        $users->apellido = $request->apellido;
-        $users->direccion = $request->direccion;
-        $users->fecha_nacimiento = $request->fecha_nacimiento;
-        $users->telefono = $request->telefono;
-        $users->email = $request->email;
-        $users->admin = $request->admin;
-        $users->latitud = $request->latitud;
-        $users->longitud = $request->longitud;
-        $users->password = bcrypt($request->password);
+    $bandera = false;
 
-        $users->save();
+			if ($request->nombre!= null)
+			{
+				$user->nombre = $request->nombre ;
+				$bandera=true;
+			}
 
-        /* return $users; */
-        return response()->json([
-            'message' => 'Usuario actualizado!'], 200);
+			if ($request->apellido!= null)
+			{	
+				$user->lastname = $request->lastname;
+				$bandera=true;
+			}
+
+            if ($request->direccion!= null)
+			{
+				$user->direccion = $request->direccion;
+				$bandera=true;
+            }
+
+            if ($request->fecha_nacimiento!= null)
+			{
+				$user->fecha_nacimiento = $request->fecha_nacimiento;
+				$bandera=true;
+            }
+            
+            if ($request->telefono!= null)
+			{
+				$user->telefono = $request->telefono;
+				$bandera=true;
+            }
+            
+            if ($request->admin!= null)
+			{
+				$user->admin = $request->admin;
+				$bandera=true;
+            }
+
+            if ($request->latitud!= null)
+			{
+				$user->latitud = $request->latitud;
+				$bandera=true;
+            }
+
+            if ($request->longitud!= null)
+			{
+				$user->longitud = $request->longitud;
+				$bandera=true;
+            }
+            
+			if ($request->email!= null)
+			{
+				$request->validate([
+					'email'    => 'required|string|email|unique:users,email',
+				]);
+		
+				$user->email = $request->email;
+				$bandera=true;
+			}
+
+			if ($request->password!= null)
+			{
+				$request->validate([
+					'password' => 'required|string|confirmed',
+                ]);
+                
+                $password_tem=bcrypt($request->old_password);
+
+                if($user->password=$password_tem){
+                    $user->password=bcrypt($request->password);
+				    $bandera=true;
+                }
+                else{
+                    return response()->json([
+                        'errors'=>array(['
+                        status'=>false,
+                        'message'=>'Password incorrecta'])
+                    ],200);
+                }
+				
+				
+			}
+
+			if ($bandera)
+			{
+				$user->save();
+				return response()->json([
+					'status'=>true,
+                    'data'=>$user,
+                    'message'=>'User Actualizado'],200);
+			}
+			else
+			{
+				return response()->json([
+					'errors'=>array(['
+					status'=>false,
+					'message'=>'No se ha modificado ningún dato.'])
+				],200);
+			}
       
     }
 
