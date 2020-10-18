@@ -186,6 +186,59 @@ class ProductoController extends Controller
         
     }
 
+    public function show_Productos_Combos()
+    {
+        $combo="Combos";
+        $id=null;
+        $categoria = DB::table('categorias')
+        ->where('estado', 1)
+        ->where('nombre', $combo)->get();
+             
+        foreach($categoria as $clave =>$valor){
+            $dataTemp=[
+                'id'=>$valor->id
+            ];
+            }
+        
+        $id= $dataTemp['id'];    
+        $dataTemp=null;
+
+        $producto = DB::table('productos')
+        ->select('productos.*',DB::raw('COUNT(tamano_productos.estado) as numero_Presentaciones'))     
+        ->join('tamano_productos', 'tamano_productos.id_producto', '=', 'productos.id')
+        ->groupBy('productos.id','productos.id_categoria','productos.nombre','productos.descripcion','productos.url_imagen','productos.created_at','productos.updated_at','productos.estado')
+        ->where('productos.id_categoria', $id)
+        ->where('productos.estado', 1)
+        ->where('tamano_productos.estado', 1)
+        
+        ->get();
+
+        return $producto;
+
+        if(json_decode($producto, true) ){
+         
+            foreach($categoria as $clave =>$valor){
+            $data=[
+                'Categoria'=>[
+                'Nombre_categoria'=>$valor->nombre,
+                'id'=>$valor->id,
+                'Descripcion'=>$valor->descripcion,
+                ],
+                'Productos'=>$producto,
+            ];
+        }
+
+            return $data;
+
+        }else{
+            return response()->json([
+                'message' => 'Esa categoria no tiene producto!'], 200);
+        }   
+        
+    }
+
+
+
 
     
     public function filter_productos(Request $request)

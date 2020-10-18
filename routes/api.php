@@ -46,7 +46,8 @@ Route::group(['prefix' => 'oauth/token'], function () {
    Route::get('/', 'ProductoController@index');
    Route::get('/buscar/{id}', 'ProductoController@show');
    Route::get('/productos_categoria/{id}', 'ProductoController@show_Productos');  
- });
+   Route::get('/combos', 'ProductoController@show_Productos_Combos'); 
+  });
 
 
  Route::group(['prefix' => 'tamano_producto'], function () {
