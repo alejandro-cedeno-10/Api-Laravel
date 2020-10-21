@@ -68,7 +68,7 @@ class UserController extends Controller
 
 			if ($request->apellido!= null)
 			{	
-				$user->lastname = $request->lastname;
+				$user->apellido = $request->apellido;
 				$bandera=true;
 			}
 
