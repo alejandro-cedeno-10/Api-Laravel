@@ -144,7 +144,7 @@ class TamanoProductoController extends Controller
             }
             foreach($tamanos as $clave =>$valor){
                 $data['Tamanos_disponibles'][$clave]=[
-                    'Id_tamano'=>$valor->id,
+                    'Id_tamano'=>$valor->id_tamano,
                     'Tamano'=>$valor->nombre,
                     'Precio'=>$valor->precio,
                     'Stock'=>$valor->stock,

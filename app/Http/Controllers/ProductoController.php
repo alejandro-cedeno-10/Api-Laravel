@@ -348,7 +348,6 @@ class ProductoController extends Controller
             'id'     => 'required|numeric',
             
         ]);
-        
 
         $producto = Producto::findOrFail($request->id);
  
@@ -369,8 +368,6 @@ class ProductoController extends Controller
             $producto->url_imagen = $imageName;
         }
 
-       
-          
             if( $request->nombre != null) {
                 $producto->nombre = $request->nombre;
             }
@@ -379,8 +376,6 @@ class ProductoController extends Controller
             $producto->descripcion = $request->descripcion;
            }
 
-      
-      
         $producto->save();
 
         /* return $users; */
